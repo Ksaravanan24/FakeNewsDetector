@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prediction Result</title>
+  <style>
+    body {
+      background-color: #f5f5f5;
+      /* Light gray background */
+      font-family: Arial, sans-serif;
+      /* Default font */
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    p {
+      text-align: center;
+      font-size: 18px;
+    }
+
+    strong {
+      color: #4CAF50;
+      /* Green color for prediction */
+    }
+
+    .news-container {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #f0f0f0;
+      /* Light background for news */
+      border-radius: 10px;
+    }
+
+    .news-item {
+      margin-bottom: 10px;
+    }
+
+    .news-item h3 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .news-item p {
+      color: #666;
+    }
+
+    .container a {
+      padding: 10px 20px;
+      background-color: #4caf50;
+      /* Green button */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      
+    }
+
+    a {
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .container a:hover {
+      background-color: #45a049;
+      /* Darker green on hover */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Prediction Result</h2>
+    <p>The input news content is predicted as: <strong>{{ prediction }}</strong></p>
+    <a href="/">BACK</a>
+    <div class="news-container">
+      <h2>Latest News & Tech Information</h2>
+      <div id="news-items">
+        <!-- News articles will be dynamically added here -->
+      </div>
+    </div>
+
+  </div>
+
+
+  <script>
+    // Fetch real news articles from an API
+    fetch(
+      "https://newsapi.org/v2/top-headlines?country=us&apiKey=3ef19ec6275844a0aa5ee47e7483351c"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const newsContainer = document.getElementById("news-items");
+        data.articles.forEach((article) => {
+          const newsItem = document.createElement("div");
+          newsItem.classList.add("news-item");
+          newsItem.innerHTML = `
+                        <h3>${article.title}</h3>
+                        <p>${article.description}</p>
+                        <a href="${article.url}" target="_blank">Read more</a>
+                    `;
+          newsContainer.appendChild(newsItem);
+        });
+      })
+      .catch((error) => console.error("Error fetching news:", error));
+  </script>
+</body>
+
+</html>
